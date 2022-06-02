@@ -1,0 +1,39 @@
+@using Microsoft.AspNetCore.Identity
+@using Tich_hop_EntityFramework.models
+    @* <span class="badge badge-danger">Day la login partial</span> *@
+    
+@inject SignInManager<AppUser> SignIn
+@inject UserManager<AppUser> UserManager
+
+    @{
+        //chứa thông tin đăng nhập của user - được thiết lập trong mỗi truy vấn do 2 middleware authentication - authorization 
+        //
+        @* SignIn.IsSignedIn(User) // kiểm tra đã đăng nhập - true đã đăng nhập
+        UserManager.GetUserName(User) // lấy thông tin tên đăng nhập *@
+    }
+<ul class="navbar-nav">
+    @if(SignIn.IsSignedIn(User))
+    {
+ <li class="nar-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" >
+       Xin Chao @UserManager.GetUserName(User)
+        </a>
+    </li>
+     <li class="nar-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" >Đăng Xuất</a>
+    </li>
+
+    }else
+    {
+
+
+    <li class="nar-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" >Đăng ký</a>
+    </li>
+     <li class="nar-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" >Đăng nhập</a>
+    </li>
+
+
+    }
+    </ul>

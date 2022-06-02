@@ -1,0 +1,68 @@
+@page
+@model Tich_hop_EntityFramework.Pages_Blog.IndexModel
+
+@{
+    ViewData["Title"] = "Quản lý Blog";
+    int count=0;
+}
+
+@{
+    var PagingModel =new Tich_hop_EntityFramework.Helpers.PagingModel()
+    {
+        currentpage=Model.currentpage,
+        CountPage=Model.CountPage,
+        @* generateUrl=(int? p)=>"trang-"+p *@
+        generateUrl=(int? p)=>Url.Page("/Blog/Index",new {p=p})
+    };
+}
+<partial name="_PagingXTM" model="@PagingModel"/>
+
+<h1>Danh Sách Bài Viết</h1>
+
+<form method="get" asp-page="./Index">
+    <label>Tìm kiếm</label>
+    <input name="SearchString" value=""/>
+    <button type="submit">Tìm</button>
+</form>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Create)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Content)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Article) {
+        <tr>
+            <td>@(++count)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Create)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.id">Chỉnh sữa</a> |
+                <a asp-page="./Details" asp-route-id="@item.id">Xem</a> |
+                <a asp-page="./Delete" asp-route-id="@item.id">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
