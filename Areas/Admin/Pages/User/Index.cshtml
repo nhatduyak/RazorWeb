@@ -1,0 +1,53 @@
+﻿@page "/admin/user"
+@model App.Admin.User.IndexModel
+@{
+    ViewData["Title"]="Danh sách các User";
+}
+<h2>@ViewData["Title"]</h2>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<span>Tổng số thành viên:  <strong>@Model.totalreco</strong></span>
+
+<table class="table">
+    <tr>
+        <th>Tên User</th>
+        <th>Vai trò(role)</th>
+        <th>tác vụ</th>
+    </tr>
+    
+    @foreach (var user in Model.lUser)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>
+                @if(string.IsNullOrEmpty(user.rolenames))
+                {
+                    <a class="text-dark" asp-page="./AddroleUser" asp-route-id="@user.Id">+ Add role</a>
+
+                }
+                else
+                {
+                    <a class="" asp-page="./AddroleUser" asp-route-id="@user.Id">@user.rolenames</a>
+                }                 
+                
+                
+                </td>
+            <td>
+                <a class="btn btn-success btn-sm" asp-page="./AddroleUser" asp-route-id="@user.Id">Cập nhật</a>              
+                @* <a class="btn btn-success btn-sm" asp-page="./SetPassword" asp-route-id="@user.Id">Đặt mật khẩu</a>                 *@
+            </td>
+        </tr>
+    }
+</table>
+
+
+@{
+    var PagingModel =new Tich_hop_EntityFramework.Helpers.PagingModel()
+    {
+        currentpage=Model.currentpage,
+        CountPage=Model.CountPage,
+        @* generateUrl=(int? p)=>"trang-"+p *@
+        generateUrl=(int? p)=>Url.Page("./Index",new {p=p})
+    };
+}
+<partial name="_PagingXTM" model="@PagingModel"/>

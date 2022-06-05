@@ -20,7 +20,14 @@
         </a>
     </li>
      <li class="nar-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" >Đăng Xuất</a>
+         @* khi clik vào goi đến trang logout *@
+        @* <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" >Đăng Xuất</a> *@
+
+        @* ta tùy chình khi click vào thì ta đăng xuất luôn không cần qua trang logout *@
+         @* <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post"> *@
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark" >Đăng xuất</button>
+            </form>
     </li>
 
     }else
@@ -32,6 +39,7 @@
     </li>
      <li class="nar-item">
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" >Đăng nhập</a>
+
     </li>
 
 

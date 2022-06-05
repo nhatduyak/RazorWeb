@@ -16,10 +16,12 @@ namespace Tich_hop_EntityFramework.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public ConfirmEmailModel(UserManager<AppUser> userManager)
+        public ConfirmEmailModel(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager=signInManager;
         }
 
         [TempData]
@@ -35,13 +37,24 @@ namespace Tich_hop_EntityFramework.Areas.Identity.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"không tìm thấy User có ID = '{userId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            return Page();
+            StatusMessage = result.Succeeded ? "Email đã được xác thực." : "lỗi xác thực email.";
+            if(result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user,false);//=false có nghĩa là ko lưu ípersistent cookie
+                return RedirectToPage("/Index");
+            }
+            else
+            {
+                return Content("Lỗi xác thực");
+            }
+            //return Page();
+
+            
         }
     }
 }

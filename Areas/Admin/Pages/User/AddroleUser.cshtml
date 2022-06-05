@@ -1,0 +1,48 @@
+﻿@page "/admin/Addrole-user/{id}"
+@model App.Admin.User.AddroleUserModel
+@{
+    ViewData["Title"] = "Thêm role cho User";
+}
+
+
+<h4>Thiết lập Role cho thành viên: @Model.user.UserName</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="set-password-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="rolenames"></label>
+                @Html.ListBoxFor(r=>r.rolenames,@Model.allrole,new {
+                    id="id-select-roles",
+                    @class="w-100"
+                })
+                <span asp-validation-for="rolenames" class="text-danger"></span>
+            </div>            
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a asp-page="./Index" class="btn btn-primary">Danh sách thành viên</a>
+
+        </form>
+    </div>
+</div>
+
+@* 
+để trình bày trực quan hơn về listbox ta sử dụng   multiole-select (có thể tải công cụ này về băng libman)
+
+
+
+ *@
+
+@section Scripts {
+    <script src="~/lib/multiple-select/multiple-select.min.js"></script>
+    <link rel="stylesheet" href="~/lib/multiple-select/multiple-select.min.css"/>
+    <script>
+        $("#id-select-roles").multipleSelect({
+            seletAll:false,
+            keepOpen:false,
+            isOpen:false,
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

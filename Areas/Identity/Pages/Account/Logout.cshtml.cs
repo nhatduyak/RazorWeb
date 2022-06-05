@@ -37,7 +37,11 @@ namespace Tich_hop_EntityFramework.Areas.Identity.Pages.Account
             }
             else
             {
-                return RedirectToPage();
+                //retun về trang chủ luôn
+                returnUrl=Url.Content("~/");
+                return LocalRedirect(returnUrl);
+
+                //return RedirectToPage();
             }
         }
     }
