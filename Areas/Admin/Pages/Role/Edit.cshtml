@@ -21,8 +21,30 @@
                <a class="btn btn-primary" asp-page="./index">Danh sách các role</a>
             </div>
         </form>
+        <hr>
+        <p>
+            Các đặc tính (Claim) của role 
+            <a asp-page="./AddRoleClaim" asp-route-roleid="@Model.role.Id">+ thêm Claim</a>
+        </p>
+        @if(@Model.roleClaims.Count>0)
+        {
+             <ul>
+            @foreach(var c in Model.roleClaims)
+            {
+               
+                    <li>
+                        <a asp-page="./EditClaim" asp-route-claimid="@c.Id">
+                             @c.ClaimType : @c.ClaimValue
+                        </a>
+                       
+                    </li>
+               
+            }
+             </ul>
+        }
     </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

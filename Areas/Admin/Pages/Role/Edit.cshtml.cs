@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Tich_hop_EntityFramework.models;
 
 namespace App.Admin.Role
@@ -22,6 +24,8 @@ namespace App.Admin.Role
         public InputModel Input {set;get;}
 
         public IdentityRole role{set;get;}
+
+        public List<IdentityRoleClaim<string>> roleClaims{set;get;}
         public EditModel(RoleManager<IdentityRole> roleManager, MyBlogContext myBlogContext) : base(roleManager, myBlogContext)
         {
         }
@@ -40,6 +44,7 @@ namespace App.Admin.Role
                 Input=new InputModel(){
                     Name=role.Name
                 };
+                roleClaims= await _myBlogContext.RoleClaims.Where(rc=>rc.RoleId==role.Id).ToListAsync();
                 return Page();
             }
             else

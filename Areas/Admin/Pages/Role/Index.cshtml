@@ -13,6 +13,7 @@
 <table class="table">
     <tr>
         <th>Tên Role (Vai trò)</th>
+        <th>Claim</th>
         <th>Tác vụ</th>
     </tr>
     
@@ -20,6 +21,9 @@
     {
         <tr>
             <td>@role.Name</td>
+            <td class="">
+              <small> @string.Join(",",@role.claimnames) </small> 
+            </td>
             <td>
                 <a class="btn btn-success btn-sm" asp-page="./Edit" asp-route-roleid="@role.Id">Cập nhật</a>
                 <a class="btn btn-success btn-sm"  asp-page="./Delete" asp-route-roleid="@role.Id">Xóa</a>
